@@ -27,19 +27,13 @@ export const updateUser = async (req: Request, res: Response): Promise<Response>
 
 
 export const createUser = async (req: Request, res: Response): Promise<Response> => {
-    const newUser = getRepository(User).create(req.body);
-
-    const newCategory = getRepository(Category).create({ name: "Categoria 1" });
-    const newCategory2 = getRepository(Category).create({ name: "Categoria 2" });
-
-    /* NO ANDA */
-    const newProduct = getRepository(Product).create({ name: "Product 1", description: "description", price: 300, quantity: 2, categories: [newCategory, newCategory2] });
-    const resultProduct = await getRepository(Product).save(newProduct);
-    console.log('Saved product: ', resultProduct)
-
-    const result = await getRepository(User).save(newUser);
-    console.log(newUser);
-    return res.json(result);
+    try {
+        const newUser = getRepository(User).create(req.body);
+        return res.status(201).json(newUser);
+    } catch (err) {
+        //console.log('err.message :: ', err.message);
+        return res.status(500).json({ message: 'Error internal server: ' });
+    }
 }
 
 export const deleteUser = async (req: Request, res: Response): Promise<Response> => {

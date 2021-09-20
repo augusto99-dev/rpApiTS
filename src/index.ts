@@ -7,7 +7,10 @@ import { createConnection } from "typeorm";
 
 const app = express();
 // al ejecutar busca el ormconfig y ya conoce los parametros de la db
-createConnection();
+createConnection()
+.then(async (connection) => {
+    
+});
 
 //middlewares
 app.use(cors())

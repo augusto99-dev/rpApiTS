@@ -6,6 +6,9 @@ export class Product {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column({ type: "varchar", length: 10, unique: true })
+    key: string;
+
     @Column()
     name: string;
 
@@ -18,7 +21,7 @@ export class Product {
     @Column("int")
     quantity: number;
 
-    @ManyToMany(() => Category)
+    @ManyToMany(type => Category, category => category.products)
     @JoinTable()
     categories : Category[];
 }
