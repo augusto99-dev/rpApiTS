@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Product = void 0;
 var typeorm_1 = require("typeorm");
 var Category_1 = require("./Category");
+var Model_1 = require("./Model");
 var Product = /** @class */ (function () {
     function Product() {
     }
@@ -36,10 +37,14 @@ var Product = /** @class */ (function () {
         __metadata("design:type", Number)
     ], Product.prototype, "quantity", void 0);
     __decorate([
-        typeorm_1.ManyToMany(function () { return Category_1.Category; }),
+        typeorm_1.ManyToMany(function (type) { return Category_1.Category; }, function (category) { return category.products; }),
         typeorm_1.JoinTable(),
         __metadata("design:type", Array)
     ], Product.prototype, "categories", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function (type) { return Model_1.Model; }, function (model) { return model.product; }),
+        __metadata("design:type", Array)
+    ], Product.prototype, "models", void 0);
     Product = __decorate([
         typeorm_1.Entity()
     ], Product);

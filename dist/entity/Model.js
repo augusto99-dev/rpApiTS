@@ -9,27 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Category = void 0;
+exports.Model = void 0;
 var typeorm_1 = require("typeorm");
 var Product_1 = require("./Product");
-var Category = /** @class */ (function () {
-    function Category() {
+var Model = /** @class */ (function () {
+    function Model() {
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], Category.prototype, "id", void 0);
+    ], Model.prototype, "id", void 0);
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Category.prototype, "name", void 0);
+    ], Model.prototype, "key", void 0);
     __decorate([
-        typeorm_1.ManyToMany(function (type) { return Product_1.Product; }, function (product) { return product.categories; }),
-        __metadata("design:type", Array)
-    ], Category.prototype, "products", void 0);
-    Category = __decorate([
+        typeorm_1.Column("float"),
+        __metadata("design:type", Number)
+    ], Model.prototype, "quantity", void 0);
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], Model.prototype, "description", void 0);
+    __decorate([
+        typeorm_1.ManyToOne(function (type) { return Product_1.Product; }, function (product) { return product.models; }),
+        __metadata("design:type", Product_1.Product)
+    ], Model.prototype, "product", void 0);
+    Model = __decorate([
         typeorm_1.Entity()
-    ], Category);
-    return Category;
+    ], Model);
+    return Model;
 }());
-exports.Category = Category;
+exports.Model = Model;

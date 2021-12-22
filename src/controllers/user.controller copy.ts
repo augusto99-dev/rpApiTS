@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
-import { Category } from "../entity/Category";
-import { Product } from "../entity/Product";
+
 import { User } from "../entity/User";
 
 export const getUsers = async (req: Request, res: Response): Promise<Response> => {
