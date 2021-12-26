@@ -1,4 +1,16 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,75 +48,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.createUser = exports.updateUser = exports.getUser = exports.getUsers = void 0;
-var typeorm_1 = require("typeorm");
-var User_1 = require("../entity/User");
-var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var users;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(User_1.User).find()];
-            case 1:
-                users = _a.sent();
-                return [2 /*return*/, res.json(users)];
-        }
-    });
-}); };
-exports.getUsers = getUsers;
-var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(User_1.User).findOne(req.params.id)];
-            case 1:
-                user = _a.sent();
-                return [2 /*return*/, res.json(user)];
-        }
-    });
-}); };
-exports.getUser = getUser;
-var updateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(User_1.User).findOne(req.params.id)];
-            case 1:
-                user = _a.sent();
-                if (!user) return [3 /*break*/, 3];
-                typeorm_1.getRepository(User_1.User).merge(user, req.body);
-                return [4 /*yield*/, typeorm_1.getRepository(User_1.User).save(user)];
-            case 2:
-                result = _a.sent();
-                return [2 /*return*/, res.json(result)];
-            case 3: return [2 /*return*/, res.status(404).json({ error: 'User not found' })];
-        }
-    });
-}); };
-exports.updateUser = updateUser;
-var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newUser;
-    return __generator(this, function (_a) {
-        try {
-            newUser = typeorm_1.getRepository(User_1.User).create(req.body);
-            return [2 /*return*/, res.status(201).json(newUser)];
-        }
-        catch (err) {
-            console.log('err.message :: ', err);
-            return [2 /*return*/, res.status(500).json({ message: 'Error internal server: ' })];
-        }
-        return [2 /*return*/];
-    });
-}); };
-exports.createUser = createUser;
-var deleteUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(User_1.User).delete(req.params.id)];
-            case 1:
-                result = _a.sent();
-                return [2 /*return*/, res.json(result)];
-        }
-    });
-}); };
-exports.deleteUser = deleteUser;
+var tsoa_1 = require("tsoa");
+var user_repository_1 = require("../repositories/user.repository");
+var UserController = /** @class */ (function () {
+    function UserController() {
+    }
+    UserController.prototype.getUsers = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, user_repository_1.getUsers()];
+            });
+        });
+    };
+    UserController.prototype.createUser = function (body) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, user_repository_1.createUser(body)];
+            });
+        });
+    };
+    UserController.prototype.getUser = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, user_repository_1.getUser(Number(id))];
+            });
+        });
+    };
+    __decorate([
+        tsoa_1.Get("/"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", Promise)
+    ], UserController.prototype, "getUsers", null);
+    __decorate([
+        tsoa_1.Post("/"),
+        __param(0, tsoa_1.Body()),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], UserController.prototype, "createUser", null);
+    __decorate([
+        tsoa_1.Get("/:id"),
+        __param(0, tsoa_1.Path()),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String]),
+        __metadata("design:returntype", Promise)
+    ], UserController.prototype, "getUser", null);
+    UserController = __decorate([
+        tsoa_1.Route("users"),
+        tsoa_1.Tags("User")
+    ], UserController);
+    return UserController;
+}());
+exports.default = UserController;

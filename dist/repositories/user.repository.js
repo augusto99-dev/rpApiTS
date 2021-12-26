@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,29 +46,47 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata");
-var express_1 = __importDefault(require("express"));
-var morgan_1 = __importDefault(require("morgan"));
-var cors_1 = __importDefault(require("cors"));
-var routes_1 = __importDefault(require("./routes"));
+exports.getUser = exports.createUser = exports.getUsers = void 0;
 var typeorm_1 = require("typeorm");
-var app = express_1.default();
-// al ejecutar busca el ormconfig y ya conoce los parametros de la db
-typeorm_1.createConnection()
-    .then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
+var User_1 = require("../models/User");
+var getUsers = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var users;
     return __generator(this, function (_a) {
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                console.log('llego al getusers!!!');
+                return [4 /*yield*/, typeorm_1.getRepository(User_1.User).find()];
+            case 1:
+                users = _a.sent();
+                console.log('PASO al getusers!!!', users);
+                return [2 /*return*/, users];
+        }
     });
-}); });
-//middlewares
-app.use(cors_1.default());
-app.use(morgan_1.default('dev'));
-app.use(express_1.default.json());
-//routes
-app.use(routes_1.default);
-app.listen(3000);
-console.log('Server on port', 3000);
+}); };
+exports.getUsers = getUsers;
+var createUser = function (payload) { return __awaiter(void 0, void 0, void 0, function () {
+    var userRepository, user;
+    return __generator(this, function (_a) {
+        userRepository = typeorm_1.getRepository(User_1.User);
+        user = new User_1.User();
+        return [2 /*return*/, userRepository.save(__assign(__assign({}, user), payload))];
+    });
+}); };
+exports.createUser = createUser;
+var getUser = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var userRepository, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                userRepository = typeorm_1.getRepository(User_1.User);
+                return [4 /*yield*/, userRepository.findOne({ id: id })];
+            case 1:
+                user = _a.sent();
+                if (!user)
+                    return [2 /*return*/, null];
+                return [2 /*return*/, user];
+        }
+    });
+}); };
+exports.getUser = getUser;

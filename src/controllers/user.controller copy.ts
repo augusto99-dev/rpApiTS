@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+/* import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 
 import { User } from "../entity/User";
@@ -38,4 +38,4 @@ export const createUser = async (req: Request, res: Response): Promise<Response>
 export const deleteUser = async (req: Request, res: Response): Promise<Response> => {
     const result = await getRepository(User).delete(req.params.id);
     return res.json(result);
-}
+} */
