@@ -1,13 +1,25 @@
-import { Router } from 'express';
-const router = Router();
+import express from "express";
+import UserController from "../controllers/user.controller";
 
-import { getUsers, createUser, getUser, updateUser, deleteUser } from "../controllers/user.controller";
+const router = express.Router();
 
-router.get('/users', getUsers)
-router.post('/users', createUser)
-router.get('/users/:id', getUser)
-router.put('/users/:id', updateUser)
-router.delete('/users/:id', deleteUser)
+router.get("/", async (_req, res) => {
+  const controller = new UserController();
+  const response = await controller.getUsers();
+  return res.send(response);
+});
 
+router.post("/", async (req, res) => {
+  const controller = new UserController();
+  const response = await controller.createUser(req.body);
+  return res.send(response);
+});
 
-export default router;
+router.get("/:id", async (req, res) => {
+  const controller = new UserController();
+  const response = await controller.getUser(req.params.id);
+  if (!response) res.status(404).send({message: "No user found"})
+  return res.send(response);
+});
+
+export default router

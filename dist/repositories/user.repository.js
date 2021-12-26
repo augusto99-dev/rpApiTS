@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,52 +46,40 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var user_controller_1 = __importDefault(require("../controllers/user.controller"));
-var router = express_1.default.Router();
-router.get("/", function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var controller, response;
+exports.getUser = exports.createUser = exports.getUsers = void 0;
+var typeorm_1 = require("typeorm");
+var User_1 = require("../entity/User");
+var getUsers = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var userRepository;
+    return __generator(this, function (_a) {
+        userRepository = typeorm_1.getRepository(User_1.User);
+        return [2 /*return*/, userRepository.find()];
+    });
+}); };
+exports.getUsers = getUsers;
+var createUser = function (payload) { return __awaiter(void 0, void 0, void 0, function () {
+    var userRepository, user;
+    return __generator(this, function (_a) {
+        userRepository = typeorm_1.getRepository(User_1.User);
+        user = new User_1.User();
+        return [2 /*return*/, userRepository.save(__assign(__assign({}, user), payload))];
+    });
+}); };
+exports.createUser = createUser;
+var getUser = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var userRepository, user;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                controller = new user_controller_1.default();
-                return [4 /*yield*/, controller.getUsers()];
+                userRepository = typeorm_1.getRepository(User_1.User);
+                return [4 /*yield*/, userRepository.findOne({ id: id })];
             case 1:
-                response = _a.sent();
-                return [2 /*return*/, res.send(response)];
+                user = _a.sent();
+                if (!user)
+                    return [2 /*return*/, null];
+                return [2 /*return*/, user];
         }
     });
-}); });
-router.post("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var controller, response;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                controller = new user_controller_1.default();
-                return [4 /*yield*/, controller.createUser(req.body)];
-            case 1:
-                response = _a.sent();
-                return [2 /*return*/, res.send(response)];
-        }
-    });
-}); });
-router.get("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var controller, response;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                controller = new user_controller_1.default();
-                return [4 /*yield*/, controller.getUser(req.params.id)];
-            case 1:
-                response = _a.sent();
-                if (!response)
-                    res.status(404).send({ message: "No user found" });
-                return [2 /*return*/, res.send(response)];
-        }
-    });
-}); });
-exports.default = router;
+}); };
+exports.getUser = getUser;
