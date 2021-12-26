@@ -10,7 +10,7 @@ export class Model {
     @Column()
     key: string;
 
-    @Column("float")
+    @Column("int")
     quantity: number;
 
     @Column()

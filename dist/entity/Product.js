@@ -33,10 +33,6 @@ var Product = /** @class */ (function () {
         __metadata("design:type", Number)
     ], Product.prototype, "price", void 0);
     __decorate([
-        typeorm_1.Column("int"),
-        __metadata("design:type", Number)
-    ], Product.prototype, "quantity", void 0);
-    __decorate([
         typeorm_1.ManyToMany(function (type) { return Category_1.Category; }, function (category) { return category.products; }),
         typeorm_1.JoinTable(),
         __metadata("design:type", Array)

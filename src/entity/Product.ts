@@ -16,9 +16,6 @@ export class Product {
     @Column("float")
     price: number;
 
-    @Column("int")
-    quantity: number;
-
     @ManyToMany(type => Category, category => category.products)
     @JoinTable()
     categories : Category[];

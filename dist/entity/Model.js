@@ -24,7 +24,7 @@ var Model = /** @class */ (function () {
         __metadata("design:type", String)
     ], Model.prototype, "key", void 0);
     __decorate([
-        typeorm_1.Column("float"),
+        typeorm_1.Column("int"),
         __metadata("design:type", Number)
     ], Model.prototype, "quantity", void 0);
     __decorate([
